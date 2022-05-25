@@ -6,7 +6,9 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.riarafoodapp.data.Food
+import com.example.riarafoodapp.databinding.LayoutCartBinding
 import com.example.riarafoodapp.databinding.LayoutFoodBinding
 
 class CartAdapter(
@@ -17,23 +19,22 @@ class CartAdapter(
     var photosList: MutableList<Food> = mutableListOf()
     var photosListFiltered: MutableList<Food> = mutableListOf()
 
-    inner class SharedAssetViewHolder(private val binding: LayoutFoodBinding) :
+    inner class SharedAssetViewHolder(private val binding: LayoutCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(sharedItem: Food) {
 
             binding.foodTitle.text = sharedItem.desc
+            binding.priceTitle.text = "Kes ${sharedItem.price}"
+            Glide.with(binding.root).load(sharedItem.imageUrl).into(binding.imageView2)
 
-            //binding.description.text = "You shared this asset to ${sharedItem.user?.fname}"
-            // Glide.with(binding.root).load(ApiConstants.IMAGE_URL +sharedItem.item.imageurl1).into(binding.assetImg)
-
-            itemView.setOnClickListener {
-                onItemClick?.invoke(photosListFiltered[adapterPosition])
+            binding.addTOCart.setOnClickListener {
+                onItemClick?.invoke(photosList[adapterPosition])
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SharedAssetViewHolder {
-        val view = LayoutFoodBinding.inflate(
+        val view = LayoutCartBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
 

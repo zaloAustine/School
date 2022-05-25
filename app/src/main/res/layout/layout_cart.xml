@@ -16,6 +16,7 @@
         android:layout_height="100dp"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,11 +46,11 @@
             app:layout_constraintStart_toStartOf="@+id/foodTitle"
             app:layout_constraintTop_toBottomOf="@+id/foodTitle" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/addTOCart"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="add to cart"
+            android:text="Remove from cart"
             android:textAllCaps="false"
             android:theme="@style/Widget.Material3.Button.OutlinedButton"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +58,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/priceTitle" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

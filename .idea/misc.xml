@@ -9,7 +9,10 @@
         <entry key="app/src/main/res/layout/activity_launch.xml" value="0.2791666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.203125" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_desc.xml" value="0.26222826086956524" />
         <entry key="app/src/main/res/layout/fragment_menu.xml" value="0.2062780269058296" />
+        <entry key="app/src/main/res/layout/fragment_order.xml" value="0.26222826086956524" />
+        <entry key="app/src/main/res/layout/layout_cart.xml" value="0.26222826086956524" />
         <entry key="app/src/main/res/layout/layout_food.xml" value="0.3098958333333333" />
       </map>
     </option>

@@ -7,6 +7,7 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.riarafoodapp.data.Food
 import com.example.riarafoodapp.databinding.LayoutFoodBinding
 
@@ -23,13 +24,14 @@ class FoodAdapter(
         fun bind(sharedItem: Food) {
 
             binding.foodTitle.text = sharedItem.desc
+            binding.foodTitle.text = sharedItem.desc
+            binding.priceTitle.text = "Kes ${sharedItem.price}"
+            Glide.with(binding.root).load(sharedItem.imageUrl).into(binding.imageView2)
 
-            //binding.description.text = "You shared this asset to ${sharedItem.user?.fname}"
-            // Glide.with(binding.root).load(ApiConstants.IMAGE_URL +sharedItem.item.imageurl1).into(binding.assetImg)
-
-            itemView.setOnClickListener {
-                onItemClick?.invoke(photosListFiltered[adapterPosition])
+            binding.addTOCart.setOnClickListener {
+                onItemClick?.invoke(photosList[adapterPosition])
             }
+
         }
     }
 

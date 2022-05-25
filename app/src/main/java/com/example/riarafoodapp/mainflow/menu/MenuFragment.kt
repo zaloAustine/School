@@ -1,5 +1,6 @@
 package com.example.riarafoodapp.mainflow.menu
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -47,7 +49,9 @@ class MenuFragment : Fragment() {
 
         mAuth = FirebaseAuth.getInstance()
 
-        adapter = FoodAdapter { food -> }
+        adapter = FoodAdapter { food ->
+            addToCart(food)
+        }
 
         binding.menuRecyclerView.adapter = adapter
         binding.menuRecyclerView.layoutManager = GridLayoutManager(context, 2)
@@ -60,11 +64,32 @@ class MenuFragment : Fragment() {
             findNavController().navigate(R.id.cartFragment)
         }
 
-        addFoodMenu()
-        getFoodMenus()
+        //addFoodMenu()
         filterFood()
-        updateCartDetails()
         getCartDetails()
+        getCartFoods()
+    }
+
+    private fun addToCart(food: Food) {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = database.getReference("cartItems").child(currentUser!!.uid)
+        val pushedPostRef: DatabaseReference = myRef.push()
+        pushedPostRef.setValue(
+            Food(
+                price = food.price,
+                id = food.id,
+                name = food.name,
+                desc = food.desc,
+                imageUrl = food.imageUrl
+            )
+        )
+
+        Toast.makeText(context, "Added to cart", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getFoodMenus()
     }
 
     private fun filterFood() {
@@ -85,7 +110,6 @@ class MenuFragment : Fragment() {
 
     private fun getFoodMenus() {
         val myRef = database.getReference("menu")
-
 
         // My top posts by number of stars
         myRef.addValueEventListener(object : ValueEventListener {
@@ -108,21 +132,98 @@ class MenuFragment : Fragment() {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         })
-
     }
 
     private fun addFoodMenu() {
         val myRef = database.getReference("menu")
         val pushedPostRef: DatabaseReference = myRef.push()
-        pushedPostRef.setValue(Food(pushedPostRef.key.toString(), "chicken desc", "eee", ""))
+        pushedPostRef.setValue(
+            Food(
+                price = "120",
+                id = "22",
+                name = "Pilau",
+                desc = "Sweet Pilau",
+                imageUrl = "https://img-global.cpcdn.com/recipes/e16e61be3886271d/1280x1280sq70/photo.webp"
+            )
+        )
+
+//        pushedPostRef.setValue(
+//            Food(
+//                price = "80",
+//                id = "3",
+//                name = "Ugali Beef",
+//                desc = "Sweet and fleshy",
+//                imageUrl = "https://img-global.cpcdn.com/recipes/d57026daae0a9dc8/1280x1280sq70/photo.webp"
+//            )
+//        )
+//
+//        pushedPostRef.setValue(
+//            Food(
+//                price = "250",
+//                id = "4",
+//                name = "Chicken",
+//                desc = "Sweet Curry Chicken",
+//                imageUrl = "https://40aprons.com/wp-content/uploads/2021/08/beef-curry-8.jpg"
+//            )
+//        )
+//
+//        pushedPostRef.setValue(
+//            Food(
+//                price = "150",
+//                id = "5",
+//                name = "Potatoes",
+//                desc = "Sweet Potatoes served with hot tea",
+//                imageUrl = "https://c.ndtvimg.com/2018-10/rn4qsd9_sweet-potatoes-_625x300_10_October_18.jpg"
+//            )
+//        )
     }
 
-    private fun updateCartDetails() {
+    private fun updateCartDetails(count: String, total: String) {
         val currentUser = FirebaseAuth.getInstance().currentUser
         val myRef = database.getReference("cart")
         val pushedPostRef: DatabaseReference = myRef.child(currentUser!!.uid)
-        pushedPostRef.setValue(Cart("5", "400"))
+        pushedPostRef.setValue(Cart(count, total))
     }
+
+
+    // just to update the card
+    private fun getCartFoods() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = database.getReference("cartItems").child(currentUser!!.uid)
+
+        // My top posts by number of stars
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val list: MutableList<Food> = mutableListOf()
+
+                // TODO: handle the post
+                val children = dataSnapshot.children
+                children.forEach {
+                    val cartItems = it.getValue(Food::class.java)
+                    cartItems?.let {
+                        list.add(it)
+                    }
+                }
+
+                if (list.isNotEmpty()) {
+                    binding.cardView.isVisible = true
+                    val total = list.sumOf { it -> it.price.toInt() }
+                    updateCartDetails(count = list.size.toString(), total = total.toString())
+                }
+
+                //do the update here
+
+
+                adapter.photosList = list
+                adapter.submitList(list)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.w(ContentValues.TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        })
+    }
+
 
     private fun getCartDetails() {
 
@@ -137,8 +238,6 @@ class MenuFragment : Fragment() {
                 if (post != null) {
                     binding.pricing.text =
                         "You have ${post.items} Items worth Kes ${post.total} added to cart"
-                } else {
-                    binding.cardView.isVisible = false
                 }
             }
 
@@ -147,9 +246,6 @@ class MenuFragment : Fragment() {
                 Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
             }
         }
-
         pushedPostRef.addValueEventListener(postListener)
-
     }
-
 }
