@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable-v24/background.xml" value="0.199" />
+        <entry key="app/src/main/res/drawable/bg_search_grey.xml" value="0.1795" />
+        <entry key="app/src/main/res/drawable/search.xml" value="0.1795" />
+        <entry key="app/src/main/res/layout/activity_launch.xml" value="0.2791666666666667" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.15070921985815602" />
+        <entry key="app/src/main/res/layout/fragment_menu.xml" value="0.2062780269058296" />
+        <entry key="app/src/main/res/layout/layout_food.xml" value="0.3098958333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

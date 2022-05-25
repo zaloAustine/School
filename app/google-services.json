@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1009996849406",
+    "firebase_url": "https://riarafoodapp-default-rtdb.firebaseio.com",
+    "project_id": "riarafoodapp",
+    "storage_bucket": "riarafoodapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1009996849406:android:f2e76789faf72de6c8c5af",
+        "android_client_info": {
+          "package_name": "com.example.riarafoodapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1009996849406-h9041aotvas75rrf6nv5r97kd58a78v6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3sWFcQ7QDMRvPPjqnUj9AsFTLTXN1n_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1009996849406-h9041aotvas75rrf6nv5r97kd58a78v6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
