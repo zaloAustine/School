@@ -16,7 +16,7 @@ class FoodAdapter(
 ) :
     ListAdapter<Food, FoodAdapter.SharedAssetViewHolder>(ShareItemDiffCallBack()), Filterable {
 
-    var photosList: MutableList<Food> = mutableListOf()
+    var foodList: MutableList<Food> = mutableListOf()
     var photosListFiltered: MutableList<Food> = mutableListOf()
 
     inner class SharedAssetViewHolder(private val binding: LayoutFoodBinding) :
@@ -29,7 +29,7 @@ class FoodAdapter(
             Glide.with(binding.root).load(sharedItem.imageUrl).into(binding.imageView2)
 
             binding.addTOCart.setOnClickListener {
-                onItemClick?.invoke(photosList[adapterPosition])
+                onItemClick?.invoke(foodList[adapterPosition])
             }
 
         }
@@ -51,9 +51,9 @@ class FoodAdapter(
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charString = constraint?.toString() ?: ""
-                if (charString.isEmpty()) photosListFiltered = photosList else {
+                if (charString.isEmpty()) photosListFiltered = foodList else {
                     val filteredList = ArrayList<Food>()
-                    photosList
+                    foodList
                         .filter {
                             (it.id.contains(constraint!!)) or
                                     (it.desc.contains(constraint))

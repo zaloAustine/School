@@ -66,6 +66,7 @@ class MenuFragment : Fragment() {
 
         //addFoodMenu()
         filterFood()
+
         getCartDetails()
         getCartFoods()
     }
@@ -87,11 +88,6 @@ class MenuFragment : Fragment() {
         Toast.makeText(context, "Added to cart", Toast.LENGTH_LONG).show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        getFoodMenus()
-    }
-
     private fun filterFood() {
 
         binding.multiSearchView.addTextChangedListener(object : TextWatcher {
@@ -106,6 +102,11 @@ class MenuFragment : Fragment() {
                 adapter.filter.filter(s)
             }
         })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getFoodMenus()
     }
 
     private fun getFoodMenus() {
@@ -124,8 +125,9 @@ class MenuFragment : Fragment() {
                     }
                 }
 
-                adapter.photosList = list
+                adapter.foodList = list
                 adapter.submitList(list)
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -212,10 +214,6 @@ class MenuFragment : Fragment() {
                 }
 
                 //do the update here
-
-
-                adapter.photosList = list
-                adapter.submitList(list)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
