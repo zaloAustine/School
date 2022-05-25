@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
@@ -125,6 +126,26 @@ class DescFragment : Fragment(R.layout.fragment_desc) {
         val myRef = database.getReference("Orders").child(currentUser!!.uid)
         val ref = myRef.push()
         ref.setValue(order)
+        clearCart()
     }
 
+    private fun clearCart() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        val myRef = database.getReference("cartItems")
+        val pushedPostRef = myRef.child(currentUser!!.uid)
+
+        pushedPostRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (appleSnapshot in dataSnapshot.children) {
+                    appleSnapshot.ref.removeValue()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e(ContentValues.TAG, "onCancelled", databaseError.toException())
+            }
+        })
+
+        pushedPostRef.removeValue()
+    }
 }
